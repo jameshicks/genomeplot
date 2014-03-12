@@ -23,11 +23,10 @@ gwas = pd.read_csv(sys.argv[1])
 
 chroms = sorted(set(gwas.chr))
 for c in chroms:
-    if c == 1: 
-        gwas.ix[gwas['chr'] == c,'cumpos'] = gwas.ix[gwas['chr'] == c,:]['pos']
-    else:
-        lastcumpos = max(gwas.ix[gwas.chr == (c-1),'cumpos'])
-        gwas.ix[gwas.chr==c,'cumpos'] = gwas.ix[gwas.chr==c,'pos'] + lastcumpos
+    cstart = min(gwas.ix[gwas.chr==c,'pos'])
+    gwas.ix[gwas['chr'] == c,'cumpos'] = gwas.ix[gwas['chr'] == c,:]['pos'] - cstart
+    lastcumpos = max(gwas.ix[gwas.chr == (c-1),'cumpos']) if c != 1 else 0        
+    gwas.ix[gwas.chr==c,'cumpos'] = gwas.ix[gwas.chr==c,'pos'] + lastcumpos
 
 xmin = gwas.cumpos.min()
 xmax = gwas.cumpos.max()
