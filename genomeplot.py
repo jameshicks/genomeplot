@@ -42,7 +42,7 @@ plt.vlines(chrombreaks, 0, maxstat, color='gray', alpha=0.25)
 
 for c in chroms:
     ss = gwas.ix[gwas.chr == c,:]
-    plt.plot(ss.cumpos, -np.log10(ss.p))
+    plt.plot(ss.cumpos, -np.log10(ss.p), linewidth=0.75)
 
 xticks=[gwas.ix[gwas.chr==x,'cumpos'].min() for x in chroms]
 plt.xticks(xticks, chroms)
