@@ -1,6 +1,8 @@
 #!/usr/bin/python
 
 import sys
+import argparse
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,10 +18,19 @@ except ImportError:
 if seaborn:
     sns.set(context='talk', style='nogrid')
 
+parser = argparse.ArgumentParser(description='Create Manhattan style plots of results from'
+                                 'genome-wide screens')
+parser.add_argument('-f', '--file', help="Results file from screen", 
+                    metavar='FILE', dest='file')
+parser.add_argument('--ymax', type=float, help='Maximum value for the y axis',
+                    dest='ymax', default=None)
+args = parser.parse_args()
+
+
 sigalpha = 3.0
 sugalpha = -np.log10(0.05)
 
-gwas = pd.read_csv(sys.argv[1])
+gwas = pd.read_csv(args.file)
 
 chroms = sorted(set(gwas.chr))
 for c in chroms:
@@ -30,7 +41,7 @@ for c in chroms:
 
 xmin = gwas.cumpos.min()
 xmax = gwas.cumpos.max()
-maxstat = ceil(max(-np.log10(gwas['p'])))
+maxstat = ceil(max(-np.log10(gwas['p']))) if not args.ymax else args.ymax
 
 plt.xlim(xmin,xmax)
 plt.ylim(0,maxstat)
