@@ -51,4 +51,6 @@ if sigalpha:
 if sugalpha:
     plt.hlines(sugalpha, xmin, xmax, color='blue')
 
+plt.xlabel('Chromosome')
+plt.ylabel('-log10(p)')
 plt.show()
