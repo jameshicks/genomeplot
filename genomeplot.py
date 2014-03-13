@@ -82,7 +82,7 @@ for c in chroms:
 # Set x-axis ticks
 xticks=[gwas.ix[gwas.chr==x,'cumpos'].median() for x in chroms]
 plt.xticks(xticks, chroms)
-plt.tick_params(axis='x', which='major', labelsize=9)
+plt.tick_params(axis='x', which='major', labelsize=8)
 
 # Draw significance lines
 
