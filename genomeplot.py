@@ -58,8 +58,9 @@ for c in chroms:
         plt.plot(ss.cumpos, -np.log10(ss.p), linewidth=0.75)
     if args.points:
         plt.plot(ss.cumpos, -np.log10(ss.p), '.')
-xticks=[gwas.ix[gwas.chr==x,'cumpos'].min() for x in chroms]
+xticks=[gwas.ix[gwas.chr==x,'cumpos'].median() for x in chroms]
 plt.xticks(xticks, chroms)
+plt.tick_params(axis='x', which='major', labelsize=9)
 if sigalpha:
     plt.hlines(sigalpha, xmin, xmax, color='red')
 if sugalpha:
