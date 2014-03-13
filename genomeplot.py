@@ -29,6 +29,7 @@ parser.add_argument('--ymax', type=float, help='Maximum value for the y axis',
 parser.add_argument('-l','--lines', help="Make a line graph", dest='lines', action='store_true')
 parser.add_argument('-p','--points', help="Make a manhattan plot", action='store_true', dest='points')
 parser.add_argument('-t','--title', help="Set plot title")
+parser.add_argument('--ylab', help='Y axis label', default='p')
 args = parser.parse_args()
 
 
@@ -88,7 +89,7 @@ if args.title:
 
 # Label axes
 plt.xlabel('Chromosome')
-plt.ylabel('-log10(p)')
+plt.ylabel('-log10(%s)' % args.ylab)
 
 # Show plot
 plt.show()
