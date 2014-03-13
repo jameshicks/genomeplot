@@ -30,11 +30,17 @@ parser.add_argument('-l','--lines', help="Make a line graph", dest='lines', acti
 parser.add_argument('-p','--points', help="Make a manhattan plot", action='store_true', dest='points')
 parser.add_argument('-t','--title', help="Set plot title")
 parser.add_argument('--ylab', help='Y axis label', default='p')
+parser.add_argument('--log10', help='Transform the Y axis values as -log10(y)', action='store_true')
 args = parser.parse_args()
 
 
+if args.log10:
+    transform = lambda y: -np.log10(y)
+else:
+    transform = lambda y: y
+
 sigalpha = 3.0
-sugalpha = -np.log10(0.05)
+sugalpha = -transform(0.05)
 
 # Read data
 print 'Reading data...',
@@ -54,7 +60,7 @@ for c in chroms:
 # Set plot limits
 xmin = gwas.cumpos.min()
 xmax = gwas.cumpos.max()
-maxstat = ceil(max(-np.log10(gwas['p']))) if not args.ymax else args.ymax
+maxstat = ceil(max(transform(gwas['p']))) if not args.ymax else args.ymax
 
 plt.xlim(xmin,xmax)
 plt.ylim(0,maxstat)
@@ -68,9 +74,9 @@ print 'Plotting data'
 for c in chroms:
     ss = gwas.ix[gwas.chr == c,:]
     if args.lines:
-        plt.plot(ss.cumpos, -np.log10(ss.p), linewidth=0.75)
+        plt.plot(ss.cumpos, transform(ss.p), linewidth=0.75)
     if args.points:
-        plt.plot(ss.cumpos, -np.log10(ss.p), '.')
+        plt.plot(ss.cumpos, transform(ss.p), '.')
 
 # Set x-axis ticks
 xticks=[gwas.ix[gwas.chr==x,'cumpos'].median() for x in chroms]
@@ -89,7 +95,8 @@ if args.title:
 
 # Label axes
 plt.xlabel('Chromosome')
-plt.ylabel('-log10(%s)' % args.ylab)
+ylab = '-log10({0})'.format(args.ylab) if args.log10 else args.ylab  
+plt.ylabel(ylab)
 
 # Show plot
 plt.show()
