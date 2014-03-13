@@ -50,7 +50,7 @@ plt.ylim(0,maxstat)
 
 chrombreaks = np.array([max(gwas.ix[gwas.chr == x,'cumpos']) for x in chroms])
 
-plt.vlines(chrombreaks, 0, maxstat, color='gray', alpha=0.25)
+plt.vlines(chrombreaks, 0, maxstat, color='gray', alpha=0.1)
 
 for c in chroms:
     ss = gwas.ix[gwas.chr == c,:]
