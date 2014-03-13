@@ -23,7 +23,7 @@ if seaborn:
 parser = argparse.ArgumentParser(description='Create Manhattan style plots of results from'
                                  'genome-wide screens')
 parser.add_argument('-f', '--file', help="Results file from screen", 
-                    metavar='FILE', dest='file')
+                    metavar='FILE', dest='file', required=True)
 parser.add_argument('-s','--stat', help='Statistic to plot on Y axis',default='p')
 parser.add_argument('--ymin', type=float, help='Minimum value for the y axis', default=0)
 parser.add_argument('--ymax', type=float, help='Maximum value for the y axis',
