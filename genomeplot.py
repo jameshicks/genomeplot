@@ -13,6 +13,7 @@ try:
     import seaborn as sns
     seaborn = True
 except ImportError:
+    print 'Seaborn library not installed. Plots would be prettier with it'
     seaborn = False
 
 if seaborn:
@@ -35,9 +36,13 @@ sigalpha = 3.0
 sugalpha = -np.log10(0.05)
 
 # Read data
+print 'Reading data...',
 gwas = pd.read_csv(args.file)
+print 'Done'
+
 
 # Calculate positions on X axis
+print 'Calculating layout'
 chroms = sorted(set(gwas.chr))
 for c in chroms:
     cstart = min(gwas.ix[gwas.chr==c,'pos'])
@@ -57,6 +62,7 @@ plt.ylim(0,maxstat)
 chrombreaks = np.array([max(gwas.ix[gwas.chr == x,'cumpos']) for x in chroms])
 plt.vlines(chrombreaks, 0, maxstat, color='gray', alpha=0.1)
 
+print 'Plotting data'
 # Plot the data!
 for c in chroms:
     ss = gwas.ix[gwas.chr == c,:]
