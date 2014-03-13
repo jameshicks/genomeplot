@@ -33,6 +33,8 @@ parser.add_argument('--ylab', help='Y axis label', default='p')
 parser.add_argument('--log10', help='Transform the Y axis values as -log10(y)', action='store_true')
 parser.add_argument('--significant', help='Draw significance threshold at value', type=float)
 parser.add_argument('--suggestive', help="Draw a 'suggestive' threshold at y value", type=float)
+parser.add_argument('--bonferroni', help="Draw significance/suggestive lines at"
+                    " Bonferroni corrected thresholds", action='store_true')
 args = parser.parse_args()
 
 
@@ -83,10 +85,15 @@ plt.xticks(xticks, chroms)
 plt.tick_params(axis='x', which='major', labelsize=9)
 
 # Draw significance lines
-if args.significant:
-    plt.hlines(transform(args.significant), xmin, xmax, color='red')
-if args.suggestive:
-    plt.hlines(transform(args.suggestive), xmin, xmax, color='blue')
+
+if args.bonferroni:
+    plt.hlines(transform(gwas.shape[0]), xmin, xmax, color='red')
+    plt.hlines(transform(0.05), xmin, xmax, color='blue')
+else:
+    if args.significant:
+        plt.hlines(transform(args.significant), xmin, xmax, color='red')
+    if args.suggestive:
+        plt.hlines(transform(args.suggestive), xmin, xmax, color='blue')
 
 # Write title
 if args.title:
