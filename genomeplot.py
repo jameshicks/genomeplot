@@ -25,6 +25,7 @@ parser = argparse.ArgumentParser(description='Create Manhattan style plots of re
 parser.add_argument('-f', '--file', help="Results file from screen", 
                     metavar='FILE', dest='file')
 parser.add_argument('-s','--stat', help='Statistic to plot on Y axis',default='p')
+parser.add_argument('--ymin', type=float, help='Minimum value for the y axis', default=0)
 parser.add_argument('--ymax', type=float, help='Maximum value for the y axis',
                     dest='ymax', default=None)
 parser.add_argument('-l','--lines', help="Make a line graph", dest='lines', action='store_true')
@@ -64,12 +65,12 @@ xmin = gwas.cumpos.min()
 xmax = gwas.cumpos.max()
 maxstat = ceil(transform(gwas[args.stat]).max()) if not args.ymax else args.ymax
 
-plt.xlim(xmin,xmax)
-plt.ylim(0,maxstat)
+plt.xlim(xmin, xmax)
+plt.ylim(args.ymin, maxstat)
 
 # Draw lines separating chromosomes
 chrombreaks = np.array([max(gwas.ix[gwas.chr == x,'cumpos']) for x in chroms])
-plt.vlines(chrombreaks, 0, maxstat, color='gray', alpha=0.1)
+plt.vlines(chrombreaks, args.ymin, maxstat, color='gray', alpha=0.1)
 
 print 'Plotting data'
 # Plot the data!
