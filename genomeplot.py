@@ -24,6 +24,7 @@ parser = argparse.ArgumentParser(description='Create Manhattan style plots of re
                                  'genome-wide screens')
 parser.add_argument('-f', '--file', help="Results file from screen", 
                     metavar='FILE', dest='file')
+parser.add_argument('-s','--stat', help='Statistic to plot on Y axis',default='p')
 parser.add_argument('--ymax', type=float, help='Maximum value for the y axis',
                     dest='ymax', default=None)
 parser.add_argument('-l','--lines', help="Make a line graph", dest='lines', action='store_true')
@@ -61,7 +62,7 @@ for c in chroms:
 # Set plot limits
 xmin = gwas.cumpos.min()
 xmax = gwas.cumpos.max()
-maxstat = ceil(max(transform(gwas['p']))) if not args.ymax else args.ymax
+maxstat = ceil(transform(gwas[args.stat]).max()) if not args.ymax else args.ymax
 
 plt.xlim(xmin,xmax)
 plt.ylim(0,maxstat)
@@ -75,9 +76,9 @@ print 'Plotting data'
 for c in chroms:
     ss = gwas.ix[gwas.chr == c,:]
     if args.lines:
-        plt.plot(ss.cumpos, transform(ss.p), linewidth=0.75)
+        plt.plot(ss.cumpos, transform(ss[args.stat]), linewidth=0.75)
     if args.points:
-        plt.plot(ss.cumpos, transform(ss.p), '.')
+        plt.plot(ss.cumpos, transform(ss[args.stat]), '.')
 
 # Set x-axis ticks
 xticks=[gwas.ix[gwas.chr==x,'cumpos'].median() for x in chroms]
