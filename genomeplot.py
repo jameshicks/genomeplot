@@ -24,6 +24,8 @@ parser.add_argument('-f', '--file', help="Results file from screen",
                     metavar='FILE', dest='file')
 parser.add_argument('--ymax', type=float, help='Maximum value for the y axis',
                     dest='ymax', default=None)
+parser.add_argument('-l','--lines', help="Make a line graph", dest='lines', action='store_true')
+parser.add_argument('-p','--points', help="Make a manhattan plot", action='store_true', dest='points')
 args = parser.parse_args()
 
 
@@ -52,8 +54,10 @@ plt.vlines(chrombreaks, 0, maxstat, color='gray', alpha=0.25)
 
 for c in chroms:
     ss = gwas.ix[gwas.chr == c,:]
-    plt.plot(ss.cumpos, -np.log10(ss.p), linewidth=0.75)
-
+    if args.lines:
+        plt.plot(ss.cumpos, -np.log10(ss.p), linewidth=0.75)
+    if args.points:
+        plt.plot(ss.cumpos, -np.log10(ss.p), '.')
 xticks=[gwas.ix[gwas.chr==x,'cumpos'].min() for x in chroms]
 plt.xticks(xticks, chroms)
 if sigalpha:
