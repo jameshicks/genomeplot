@@ -51,12 +51,12 @@ print 'Done'
 
 # Calculate positions on X axis
 print 'Calculating layout'
+
 chroms = sorted(set(gwas.chr))
 for c in chroms:
-    cstart = min(gwas.ix[gwas.chr==c,'pos'])
-    gwas.ix[gwas['chr'] == c,'cumpos'] = gwas.ix[gwas['chr'] == c,:]['pos'] - cstart
-    lastcumpos = max(gwas.ix[gwas.chr == (c-1),'cumpos']) if c != 1 else 0        
-    gwas.ix[gwas.chr==c,'cumpos'] = gwas.ix[gwas.chr==c,'pos'] + lastcumpos
+    cstart = gwas.ix[gwas.chr==c,'pos'].min()
+    lastcumpos = max(gwas.ix[gwas.chr == (c-1),'cumpos']) + 1 if c != 1 else 0
+    gwas.ix[gwas['chr'] == c,'cumpos'] = gwas.ix[gwas['chr'] == c,'pos'] - cstart + lastcumpos
 
 # Set plot limits
 xmin = gwas.cumpos.min()
