@@ -26,6 +26,7 @@ parser.add_argument('--ymax', type=float, help='Maximum value for the y axis',
                     dest='ymax', default=None)
 parser.add_argument('-l','--lines', help="Make a line graph", dest='lines', action='store_true')
 parser.add_argument('-p','--points', help="Make a manhattan plot", action='store_true', dest='points')
+parser.add_argument('-t','--title', help="Set plot title")
 args = parser.parse_args()
 
 
@@ -65,6 +66,9 @@ if sigalpha:
     plt.hlines(sigalpha, xmin, xmax, color='red')
 if sugalpha:
     plt.hlines(sugalpha, xmin, xmax, color='blue')
+
+if args.title:
+    plt.title(args.title)
 
 plt.xlabel('Chromosome')
 plt.ylabel('-log10(p)')
