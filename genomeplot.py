@@ -31,6 +31,8 @@ parser.add_argument('-p','--points', help="Make a manhattan plot", action='store
 parser.add_argument('-t','--title', help="Set plot title")
 parser.add_argument('--ylab', help='Y axis label', default='p')
 parser.add_argument('--log10', help='Transform the Y axis values as -log10(y)', action='store_true')
+parser.add_argument('--significant', help='Draw significance threshold at value', type=float)
+parser.add_argument('--suggestive', help="Draw a 'suggestive' threshold at y value", type=float)
 args = parser.parse_args()
 
 
@@ -38,9 +40,6 @@ if args.log10:
     transform = lambda y: -np.log10(y)
 else:
     transform = lambda y: y
-
-sigalpha = 3.0
-sugalpha = -transform(0.05)
 
 # Read data
 print 'Reading data...',
@@ -84,10 +83,10 @@ plt.xticks(xticks, chroms)
 plt.tick_params(axis='x', which='major', labelsize=9)
 
 # Draw significance lines
-if sigalpha:
-    plt.hlines(sigalpha, xmin, xmax, color='red')
-if sugalpha:
-    plt.hlines(sugalpha, xmin, xmax, color='blue')
+if args.significant:
+    plt.hlines(transform(args.significant), xmin, xmax, color='red')
+if args.suggestive:
+    plt.hlines(transform(args.suggestive), xmin, xmax, color='blue')
 
 # Write title
 if args.title:
