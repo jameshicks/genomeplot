@@ -37,6 +37,9 @@ parser.add_argument('--significant', help='Draw significance threshold at value'
 parser.add_argument('--suggestive', help="Draw a 'suggestive' threshold at y value", type=float)
 parser.add_argument('--bonferroni', help="Draw significance/suggestive lines at"
                     " Bonferroni corrected thresholds", action='store_true')
+parser.add_argument('--kruglyak', help='Draws significance lines at the pvalue thresholds proposed'
+                    'for linkage analysis by Lander & Kruglyak (1995). Significant: 4.9e-5'
+                    'Suggestive: 1.7e-3', action='store_true')
 args = parser.parse_args()
 
 
@@ -91,6 +94,9 @@ plt.tick_params(axis='x', which='major', labelsize=8)
 if args.bonferroni:
     plt.hlines(transform(gwas.shape[0]), xmin, xmax, color='red')
     plt.hlines(transform(0.05), xmin, xmax, color='blue')
+elif args.kruglyak:
+    plt.hlines(transform(4.9e-5), xmin, xmax, color='red')
+    plt.hlines(transform(1.7e-3), xmin, xmax, color='blue')
 else:
     if args.significant:
         plt.hlines(transform(args.significant), xmin, xmax, color='red')
