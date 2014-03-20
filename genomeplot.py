@@ -31,6 +31,7 @@ parser.add_argument('--ymax', type=float, help='Maximum value for the y axis',
 parser.add_argument('-l','--lines', help="Make a line graph", dest='lines', action='store_true')
 parser.add_argument('-p','--points', help="Make a manhattan plot", action='store_true', dest='points')
 parser.add_argument('-t','--title', help="Set plot title")
+parser.add_argument('--pos', default='pos', help='Column label containing position')
 parser.add_argument('--ylab', help='Y axis label', default='p')
 parser.add_argument('--log10', help='Transform the Y axis values as -log10(y)', action='store_true')
 parser.add_argument('--significant', help='Draw significance threshold at value', type=float)
@@ -59,9 +60,9 @@ print 'Calculating layout'
 
 chroms = sorted(set(gwas.chr))
 for c in chroms:
-    cstart = gwas.ix[gwas.chr==c,'pos'].min()
+    cstart = gwas.ix[gwas.chr==c, args.pos].min()
     lastcumpos = max(gwas.ix[gwas.chr == (c-1),'cumpos']) + 1 if c != 1 else 0
-    gwas.ix[gwas['chr'] == c,'cumpos'] = gwas.ix[gwas['chr'] == c,'pos'] - cstart + lastcumpos
+    gwas.ix[gwas['chr'] == c,'cumpos'] = gwas.ix[gwas['chr'] == c, args.pos] - cstart + lastcumpos
 
 # Set plot limits
 xmin = gwas.cumpos.min()
