@@ -31,6 +31,7 @@ parser.add_argument('--ymax', type=float, help='Maximum value for the y axis',
 parser.add_argument('-l','--lines', help="Make a line graph", dest='lines', action='store_true')
 parser.add_argument('-p','--points', help="Make a manhattan plot", action='store_true', dest='points')
 parser.add_argument('-t','--title', help="Set plot title")
+parser.add_argument('--chr', default='chr', help='Column label containing chromosome')
 parser.add_argument('--pos', default='pos', help='Column label containing position')
 parser.add_argument('--ylab', help='Y axis label', default='p')
 parser.add_argument('--log10', help='Transform the Y axis values as -log10(y)', action='store_true')
@@ -58,10 +59,10 @@ print 'Done'
 # Calculate positions on X axis
 print 'Calculating layout'
 
-chroms = sorted(set(gwas.chr))
+chroms = sorted(set(gwas[args.chr]))
 for c in chroms:
-    cstart = gwas.ix[gwas.chr==c, args.pos].min()
-    lastcumpos = max(gwas.ix[gwas.chr == (c-1),'cumpos']) + 1 if c != 1 else 0
+    cstart = gwas.ix[gwas[args.chr]==c, args.pos].min()
+    lastcumpos = max(gwas.ix[gwas[args.chr] == (c-1),'cumpos']) + 1 if c != 1 else 0
     gwas.ix[gwas['chr'] == c,'cumpos'] = gwas.ix[gwas['chr'] == c, args.pos] - cstart + lastcumpos
 
 # Set plot limits
@@ -73,20 +74,20 @@ plt.xlim(xmin, xmax)
 plt.ylim(args.ymin, maxstat)
 
 # Draw lines separating chromosomes
-chrombreaks = np.array([max(gwas.ix[gwas.chr == x,'cumpos']) for x in chroms])
+chrombreaks = np.array([max(gwas.ix[gwas[args.chr] == x,'cumpos']) for x in chroms])
 plt.vlines(chrombreaks, args.ymin, maxstat, color='gray', alpha=0.1)
 
 print 'Plotting data'
 # Plot the data!
 for c in chroms:
-    ss = gwas.ix[gwas.chr == c,:]
+    ss = gwas.ix[gwas[args.chr] == c,:]
     if args.lines:
         plt.plot(ss.cumpos, transform(ss[args.stat]), linewidth=0.75)
     if args.points:
         plt.plot(ss.cumpos, transform(ss[args.stat]), '.')
 
 # Set x-axis ticks
-xticks=[gwas.ix[gwas.chr==x,'cumpos'].median() for x in chroms]
+xticks=[gwas.ix[gwas[args.chr]==x,'cumpos'].median() for x in chroms]
 plt.xticks(xticks, chroms)
 plt.tick_params(axis='x', which='major', labelsize=8)
 
