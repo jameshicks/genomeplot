@@ -21,34 +21,34 @@ if seaborn:
 
 # Parse arguments
 parser = argparse.ArgumentParser(description='Create Manhattan style plots of results from'
-                                 'genome-wide screens')
+                                 ' genome-wide screens', prog='genomeplot')
 parser.add_argument('-f', '--file', help="Results file from screen", 
                     metavar='FILE', dest='file', required=True)
 
-# Plot style
-parser.add_argument('-l','--lines', help="Make a line graph", dest='lines', action='store_true')
-parser.add_argument('-p','--points', help="Make a manhattan plot", action='store_true', dest='points')
+group=parser.add_argument_group('Plot style')
+group.add_argument('-l','--lines', help="Make a line graph", dest='lines', action='store_true')
+group.add_argument('-p','--points', help="Make a manhattan plot", action='store_true', dest='points')
 
-# Column names
-parser.add_argument('--chr', default='chr', help='Column label containing chromosome')
-parser.add_argument('--pos', default='pos', help='Column label containing position')
-parser.add_argument('-s','--stat', help='Statistic to plot on Y axis',default='p')
+group=parser.add_argument_group('Column names')
+group.add_argument('--chr', default='chr', help='Column label containing chromosome')
+group.add_argument('--pos', default='pos', help='Column label containing position')
+group.add_argument('-s','--stat', help='Statistic to plot on Y axis',default='p')
 
-# Axis options
-parser.add_argument('-t','--title', help="Set plot title")
-parser.add_argument('--ylab', help='Y axis label', default='p')
-parser.add_argument('--log10', help='Transform the Y axis values as -log10(y)', action='store_true')
-parser.add_argument('--ymin', type=float, help='Minimum value for the y axis', default=0)
-parser.add_argument('--ymax', type=float, help='Maximum value for the y axis',
+group=parser.add_argument_group('Axis options')
+group.add_argument('-t','--title', help="Set plot title")
+group.add_argument('--ylab', help='Y axis label', default='p')
+group.add_argument('--log10', help='Transform the Y axis values as -log10(y)', action='store_true')
+group.add_argument('--ymin', type=float, help='Minimum value for the y axis', default=0)
+group.add_argument('--ymax', type=float, help='Maximum value for the y axis',
                     dest='ymax', default=None)
 
-# Significance lines on plot
-parser.add_argument('--significant', help='Draw significance threshold at value', type=float)
-parser.add_argument('--suggestive', help="Draw a 'suggestive' threshold at y value", type=float)
-parser.add_argument('--bonferroni', help="Draw significance/suggestive lines at"
+group=parser.add_argument_group('Significance lines')
+group.add_argument('--significant', help='Draw significance threshold at value', type=float)
+group.add_argument('--suggestive', help="Draw a 'suggestive' threshold at y value", type=float)
+group.add_argument('--bonferroni', help="Draw significance/suggestive lines at"
                     " Bonferroni corrected thresholds", action='store_true')
-parser.add_argument('--kruglyak', help='Draws significance lines at the pvalue thresholds proposed'
-                    'for linkage analysis by Lander & Kruglyak (1995). Significant: 4.9e-5'
+group.add_argument('--kruglyak', help='Draws significance lines at the pvalue thresholds proposed'
+                    'for linkage analysis by Lander & Kruglyak (1995). Significant: 4.9e-5 '
                     'Suggestive: 1.7e-3', action='store_true')
 
 args = parser.parse_args()
