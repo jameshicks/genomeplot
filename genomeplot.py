@@ -64,6 +64,9 @@ print 'Reading data...',
 gwas = pd.read_csv(args.file)
 print 'Done'
 
+print 'Minimum statistic: %s' % gwas[args.stat].min()
+print 'Maximum statistic: %s' % gwas[args.stat].max()
+print
 
 # Calculate positions on X axis
 print 'Calculating layout'
