@@ -36,7 +36,7 @@ group.add_argument('-s','--stat', help='Statistic to plot on Y axis',default='p'
 
 group=parser.add_argument_group('Axis options')
 group.add_argument('-t','--title', help="Set plot title")
-group.add_argument('--ylab', help='Y axis label', default='p')
+group.add_argument('--ylab', help='Y axis label', default=None)
 group.add_argument('--log10', help='Transform the Y axis values as -log10(y)', action='store_true')
 group.add_argument('--ymin', type=float, help='Minimum value for the y axis', default=0)
 group.add_argument('--ymax', type=float, help='Maximum value for the y axis',
@@ -123,7 +123,11 @@ if args.title:
 
 # Label axes
 plt.xlabel('Chromosome')
-ylab = '-log10({0})'.format(args.ylab) if args.log10 else args.ylab  
+
+if args.ylab:
+    ylab = '-log10({0})'.format(args.ylab) if args.log10 else args.ylab  
+else:
+    ylab = '-log10({0})'.format(args.stat) if args.log10 else args.stat
 plt.ylabel(ylab)
 
 # Show plot
