@@ -29,7 +29,8 @@ group=parser.add_argument_group('Plot style')
 group.add_argument('-l','--lines', help="Make a line graph", dest='lines', action='store_true')
 group.add_argument('-p','--points', help="Make a manhattan plot", action='store_true', dest='points')
 
-group=parser.add_argument_group('Column names')
+group=parser.add_argument_group('Column options')
+group.add_argument('-d', '--sep', default=',', help='Field delimiter', dest='sep')
 group.add_argument('--chr', default='chr', help='Column label containing chromosome')
 group.add_argument('--pos', default='pos', help='Column label containing position')
 group.add_argument('-s','--stat', help='Statistic to plot on Y axis',default='p')
@@ -61,7 +62,7 @@ else:
 
 # Read data
 print 'Reading data...',
-gwas = pd.read_csv(args.file)
+gwas = pd.read_csv(args.file, sep=args.sep)
 print 'Done'
 
 print 'Minimum statistic: %s' % gwas[args.stat].min()
