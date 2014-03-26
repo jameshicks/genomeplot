@@ -61,9 +61,12 @@ else:
     transform = lambda y: y
 
 # Read data
-print 'Reading data...',
-gwas = pd.read_csv(args.file, sep=args.sep)
-print 'Done'
+try:
+    print 'Reading data...',
+    gwas = pd.read_csv(args.file, sep=args.sep)
+    print 'Done'
+except IOError:
+    print 'Could not read file %s' % args.file
 
 print 'Minimum statistic: %s' % gwas[args.stat].min()
 print 'Maximum statistic: %s' % gwas[args.stat].max()
