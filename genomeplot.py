@@ -25,7 +25,8 @@ parser = argparse.ArgumentParser(description='Create Manhattan style plots of '
                                  prog='genomeplot')
 parser.add_argument('-f', '--file', help="Results file from screen",
                     metavar='FILE', dest='file', required=True)
-
+parser.add_argument('--explore', help=argparse.SUPPRESS, action='store_true',
+                    default=False)
 group = parser.add_argument_group('Plot style')
 group.add_argument('-l', '--lines', help="Make a line graph", dest='lines',
                    action='store_true')
@@ -85,6 +86,13 @@ print 'Minimum statistic: %s' % gwas[args.stat].min()
 print 'Maximum statistic: %s' % gwas[args.stat].max()
 print
 
+if args.explore:
+    try:
+        from IPython import embed
+        embed()
+    except ImportError:
+        print 'ERROR: IPython not found!'
+        exit(1)
 # Calculate positions on X axis
 print 'Calculating layout'
 
