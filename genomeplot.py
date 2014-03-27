@@ -94,7 +94,7 @@ for c in chroms:
     if c != 1:
         lastcumpos = max(gwas.ix[gwas[args.chr] == (c - 1), 'cumpos']) + 1
     else:
-        c = 0
+        lastcumpos = 0
     gwas.ix[gwas['chr'] == c, 'cumpos'] = \
         gwas.ix[gwas['chr'] == c, args.pos] - cstart + lastcumpos
 
@@ -105,7 +105,7 @@ xmax = gwas.cumpos.max()
 if not args.ymax:
     maxstat = ceil(transform(gwas[args.stat]).max())
 else:
-    maxtstat = args.ymax
+    maxstat = args.ymax
 
 plt.xlim(xmin, xmax)
 plt.ylim(args.ymin, maxstat)
