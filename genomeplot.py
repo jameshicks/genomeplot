@@ -77,7 +77,9 @@ else:
 # Read data
 try:
     print 'Reading data...',
-    gwas = pd.read_csv(args.file, sep=args.sep)
+    gwas = pd.read_csv(args.file, sep=args.sep,
+                       compression='gzip' if args.file.endswith('.gz')
+                       else None)
     print 'Done'
 except IOError:
     print 'Could not read file %s' % args.file
