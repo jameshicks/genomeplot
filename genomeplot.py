@@ -23,10 +23,12 @@ if seaborn:
 parser = argparse.ArgumentParser(description='Create Manhattan style plots of '
                                  'results from genome-wide screens',
                                  prog='genomeplot')
+
 parser.add_argument('-f', '--file', help="Results file from screen",
                     metavar='FILE', dest='file', required=True)
 parser.add_argument('--explore', help=argparse.SUPPRESS, action='store_true',
                     default=False)
+
 group = parser.add_argument_group('Plot style')
 group.add_argument('-l', '--lines', help="Make a line graph", dest='lines',
                    action='store_true')
