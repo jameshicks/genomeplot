@@ -76,12 +76,17 @@ if args.log10:
 else:
     transform = lambda y: y
 
+if args.file.endswith('.gz'):
+    comp = 'gzip'
+elif args.file.endswith('.bz2'):
+    comp = 'bz2'
+else:
+    comp = None
+
 # Read data
 try:
     print 'Reading data...',
-    gwas = pd.read_csv(args.file, sep=args.sep,
-                       compression='gzip' if args.file.endswith('.gz')
-                       else None)
+    gwas = pd.read_csv(args.file, sep=args.sep, compression=comp)
     print 'Done'
 except IOError:
     print 'Could not read file %s' % args.file
