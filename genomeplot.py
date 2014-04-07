@@ -23,7 +23,9 @@ parser = argparse.ArgumentParser(description='Create Manhattan style plots of '
                                  'results from genome-wide screens',
                                  prog='genomeplot')
 
-parser.add_argument('-f', '--file', help="Results file from screen",
+parser.add_argument('-f', '--file', help="Results file from screen. "
+                    "Intellegenty decompresses .gz and .bz2, provided"
+                    "that they have the correct file extension",
                     metavar='FILE', dest='file', required=True)
 parser.add_argument('--explore', help=argparse.SUPPRESS, action='store_true',
                     default=False)
@@ -131,8 +133,8 @@ chrombreaks = np.array([max(gwas.ix[gwas[args.chr] == x, 'cumpos'])
                         for x in chroms])
 plt.vlines(chrombreaks, args.ymin, maxstat, color='gray', alpha=0.1)
 
-print 'Plotting data'
 # Plot the data!
+print 'Plotting data'
 for c in chroms:
     ss = gwas.ix[gwas[args.chr] == c, :]
     if args.lines:
@@ -146,7 +148,6 @@ plt.xticks(xticks, chroms)
 plt.tick_params(axis='x', which='major', labelsize=8)
 
 # Draw significance lines
-
 if args.bonferroni:
     plt.hlines(transform(gwas.shape[0]), xmin, xmax, color='red')
     plt.hlines(transform(0.05), xmin, xmax, color='blue')
