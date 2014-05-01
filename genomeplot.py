@@ -70,6 +70,10 @@ group.add_argument('--kruglyak', help='Draws significance lines at the pvalue'
                    'Suggestive: 1.7e-3',
                    action='store_true')
 
+group = parser.add_argument_group('Display options')
+group.add_argument('--show', help='Show the plot', action='store_true')
+group.add_argument('--save', help='Save plot to filename', metavar='FILE')
+
 args = parser.parse_args()
 
 
@@ -183,5 +187,8 @@ else:
     ylab = '-log10({0})'.format(args.stat) if args.log10 else args.stat
 plt.ylabel(ylab)
 
+if args.save:
+    plt.savefig(args.save)
 # Show plot
-plt.show()
+if args.show:
+    plt.show()
