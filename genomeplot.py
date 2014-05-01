@@ -163,16 +163,16 @@ plt.tick_params(axis='x', which='major', labelsize=8)
 
 # Draw significance lines
 if args.bonferroni:
-    plt.hlines(transform(gwas.shape[0]), xmin, xmax, color='red')
-    plt.hlines(transform(0.05), xmin, xmax, color='blue')
+    plt.hlines(transform(0.05 / gwas.shape[0]), xmin, xmax, color='red', zorder=50)
+    plt.hlines(transform(0.05), xmin, xmax, color='blue', zorder=50)
 elif args.kruglyak:
-    plt.hlines(transform(4.9e-5), xmin, xmax, color='red')
-    plt.hlines(transform(1.7e-3), xmin, xmax, color='blue')
+    plt.hlines(transform(4.9e-5), xmin, xmax, color='red', zorder=50)
+    plt.hlines(transform(1.7e-3), xmin, xmax, color='blue', zorder=50)
 else:
     if args.significant:
-        plt.hlines(transform(args.significant), xmin, xmax, color='red')
+        plt.hlines(transform(args.significant), xmin, xmax, color='red', zorder=50)
     if args.suggestive:
-        plt.hlines(transform(args.suggestive), xmin, xmax, color='blue')
+        plt.hlines(transform(args.suggestive), xmin, xmax, color='blue', zorder=50)
 
 # Write title
 if args.title:
