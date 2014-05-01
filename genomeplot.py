@@ -27,6 +27,7 @@ parser.add_argument('-f', '--file', help="Results file from screen. "
                     "Intellegenty decompresses .gz and .bz2, provided"
                     "that they have the correct file extension",
                     metavar='FILE', dest='file', required=True)
+parser.add_argument('-m', '--map', help=argparse.SUPPRESS, default=None)
 parser.add_argument('--explore', help=argparse.SUPPRESS, action='store_true',
                     default=False)
 
@@ -96,6 +97,14 @@ print 'Minimum statistic: %s' % gwas[args.stat].min()
 print 'Maximum statistic: %s' % gwas[args.stat].max()
 print
 
+if args.map:
+    try:
+        print 'Reading map'
+        m = pd.read_csv(args.map, compression=comp, sep=' ')
+        gwas = gwas.merge(m, on='snp', how='inner') 
+    except IOError:
+        print 'Could not read file %s' % args.file
+
 if args.explore:
     try:
         from IPython import embed
@@ -103,6 +112,7 @@ if args.explore:
     except ImportError:
         print 'ERROR: IPython not found!'
         exit(1)
+
 # Calculate positions on X axis
 print 'Calculating layout'
 
