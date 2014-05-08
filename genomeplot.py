@@ -127,8 +127,8 @@ for c in chroms:
         lastcumpos = max(gwas.ix[gwas[args.chr] == (c - 1), 'cumpos']) + 1
     else:
         lastcumpos = 0
-    gwas.ix[gwas['chr'] == c, 'cumpos'] = \
-        gwas.ix[gwas['chr'] == c, args.pos] - cstart + lastcumpos
+    gwas.ix[gwas[args.chr] == c, 'cumpos'] = \
+        gwas.ix[gwas[args.chr] == c, args.pos] - cstart + lastcumpos
 
 # Set plot limits
 xmin = gwas.cumpos.min()
