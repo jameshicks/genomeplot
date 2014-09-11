@@ -109,13 +109,6 @@ if args.map:
     except IOError:
         print 'Could not read file %s' % args.file
 
-if args.explore:
-    try:
-        from IPython import embed
-        embed()
-    except ImportError:
-        print 'ERROR: IPython not found!'
-        exit(1)
 
 # Calculate positions on X axis
 print 'Calculating layout'
@@ -138,6 +131,15 @@ if not args.ymax:
     maxstat = ceil(transform(gwas[args.stat]).max())
 else:
     maxstat = args.ymax
+
+if args.explore:
+    try:
+        from IPython import embed
+        embed()
+    except ImportError:
+        print 'ERROR: IPython not found!'
+        exit(1)
+
 
 plt.xlim(xmin, xmax)
 plt.ylim(args.ymin, maxstat)
