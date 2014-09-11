@@ -172,9 +172,9 @@ elif args.kruglyak:
     plt.hlines(transform(1.7e-3), xmin, xmax, color='blue', zorder=50)
 else:
     if args.significant:
-        plt.hlines(transform(args.significant), xmin, xmax, color='red', zorder=50)
+        plt.hlines(transform(args.significant), xmin, xmax, color='red', zorder=50, alpha=0.25)
     if args.suggestive:
-        plt.hlines(transform(args.suggestive), xmin, xmax, color='blue', zorder=50)
+        plt.hlines(transform(args.suggestive), xmin, xmax, color='blue', zorder=50, alpha=0.25)
 
 # Write title
 if args.title:
