@@ -98,6 +98,8 @@ try:
 except IOError:
     print 'Could not read file %s' % args.file
 
+gwas = gwas.sort([args.chr, args.pos])
+
 print 'Minimum statistic: %s' % gwas[args.stat].min()
 print 'Maximum statistic: %s' % gwas[args.stat].max()
 print
