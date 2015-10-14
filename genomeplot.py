@@ -16,7 +16,8 @@ except ImportError:
     seaborn = False
 
 if seaborn:
-    sns.set(context='talk', style='nogrid')
+    sns.set_context('talk')
+    sns.set_style('white')
 
 # Parse arguments
 parser = argparse.ArgumentParser(description='Create Manhattan style plots of '
